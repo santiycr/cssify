@@ -6,7 +6,7 @@ from optparse import OptionParser
 
 validation_re = (
                  "(?P<node>"
-                   "(?P<position>//?)(?P<tag>[a-zA-Z\*]{1,6})" # //div
+                   "(?P<position>//?)(?P<tag>[\w\*]{1,6})" # //div
                    "(\[("
                      "(?P<matched>(?P<mattr>@?[a-zA-Z]{1,5}(\(\))?)=\"(?P<mvalue>[\w\s]*))\"" # [@id="bleh"] and [text()="meh"]
                    "|"
@@ -29,10 +29,12 @@ def cssify(xpath):
     XpathException: Invalid or unsupported Xpath: fail
     >>> cssify('//a')
     'a'
-    >>> cssify('//a[2]')
-    'a:nth(2)'
     >>> cssify('//a//a')
     'a a'
+    >>> cssify('//a[2]')
+    'a:nth(2)'
+    >>> cssify('/html/body/h1')
+    'html > body > h1'
     >>> cssify('//a[@id="myId"]')
     'a#myId'
     >>> cssify('//a[@id="myId"][4]')
@@ -60,12 +62,16 @@ def cssify(xpath):
         raise XpathException("Invalid or unsupported Xpath: %s" % xpath)
     else:
         css = ""
-        for node in [n[0] for n in prog.findall(xpath)]:
+        for index, node in enumerate([n[0] for n in prog.findall(xpath)]):
             log("node found: %s" % node)
             node_match = prog.match(node).groupdict()
             log("broke node down to: %s" % node_match)
 
-            position = " " if node_match['position'] == "//" else " > "
+            if index:
+                position = " " if node_match['position'] == "//" else " > "
+            else:
+                position = ""
+
             tag = "" if node_match['tag'] == "*" else node_match['tag']
 
             if node_match['matched']:
