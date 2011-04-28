@@ -8,9 +8,9 @@ validation_re = (
                  "(?P<node>"
                    "(?P<position>//?)(?P<tag>[\w\*]{1,6})" # //div
                    "(\[("
-                     "(?P<matched>(?P<mattr>@?[a-zA-Z]{1,5}(\(\))?)=\"(?P<mvalue>[\w\s]*))\"" # [@id="bleh"] and [text()="meh"]
+                     "(?P<matched>(?P<mattr>@?[a-zA-Z]{1,5}(\(\))?)=\"(?P<mvalue>[\w\s\-]*))\"" # [@id="bleh"] and [text()="meh"]
                    "|"
-                     "(?P<contained>contains\((?P<cattr>text\(\)|@[a-zA-Z]{1,5}),\s*\"(?P<cvalue>[\w\s]*)\"\))" # [contains(text(), "bleh")] and [contains(@id, "bleh")]
+                     "(?P<contained>contains\((?P<cattr>text\(\)|@[a-zA-Z]{1,5}),\s*\"(?P<cvalue>[\w\s\-]*)\"\))" # [contains(text(), "bleh")] and [contains(@id, "bleh")]
                    ")\])?"
                    "(\[(?P<nth>\d)\])?"
                  ")"
@@ -49,6 +49,12 @@ def cssify(xpath):
     '.myClass'
     >>> cssify('//a[@class="multiple classes"]')
     'a.multiple.classes'
+    >>> cssify('//a[@href="bleh"]')
+    'a[href=bleh]'
+    >>> cssify('//a[@href="/bleh"]')
+    'a[href=/bleh]'
+    >>> cssify('//a[@class="class-bleh"]')
+    'a.class-bleh'
     >>> cssify('//a[text()="my text"]')
     'a:contains(my text)'
     >>> cssify('//a[contains(@id, "bleh")]')
