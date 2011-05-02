@@ -12,13 +12,17 @@ sub_regexes = {
 
 validation_re = (
     "(?P<node>"
-      "(?P<position>//?)(?P<tag>%(tag)s)" # //div
-      "(\[("
-        "(?P<matched>(?P<mattr>@?%(attribute)s=\"(?P<mvalue>%(value)s))\"" # [@id="bleh"] and [text()="meh"]
+      "("
+        "^id\(\"?(?P<idvalue>%(value)s)\"?\)" # special case! id(idValue)
       "|"
-        "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*\"(?P<cvalue>%(value)s)\"\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
-      ")\])?"
-      "(\[(?P<nth>\d)\])?"
+        "(?P<position>//?)(?P<tag>%(tag)s)" # //div
+        "(\[("
+          "(?P<matched>(?P<mattr>@?%(attribute)s=\"(?P<mvalue>%(value)s))\"" # [@id="bleh"] and [text()="meh"]
+        "|"
+          "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*\"(?P<cvalue>%(value)s)\"\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
+        ")\])?"
+        "(\[(?P<nth>\d)\])?"
+      ")"
     ")" % sub_regexes
 )
 
@@ -47,8 +51,10 @@ def cssify(xpath):
     'a#myId:nth(4)'
     >>> cssify('//*[@id="myId"]')
     '#myId'
-    >>> cssify('id("myId")')
+    >>> cssify('id(myId)')
     '#myId'
+    >>> cssify('id("myId")/a')
+    '#myId > a'
     >>> cssify('//a[@class="myClass"]')
     'a.myClass'
     >>> cssify('//*[@class="myClass"]')
@@ -84,9 +90,11 @@ def cssify(xpath):
             else:
                 position = ""
 
-            tag = "" if node_match['tag'] == "*" else node_match['tag']
+            tag = "" if node_match['tag'] == "*" else node_match['tag'] or ""
 
-            if node_match['matched']:
+            if node_match['idvalue']:
+                attr = "#%s" % node_match['idvalue'].replace(" ", "#")
+            elif node_match['matched']:
                 if node_match['mattr'] == "@id":
                     attr = "#%s" % node_match['mvalue'].replace(" ", "#")
                 elif node_match['mattr'] == "@class":
