@@ -4,17 +4,23 @@ import re
 import sys
 from optparse import OptionParser
 
+sub_regexes = {
+    "tag": "([a-zA-Z][a-zA-Z0-9]{0,10}|\*)",
+    "attribute": "[a-zA-Z_:][-\w:.]*(\(\))?)",
+    "value": "\s*[\w/:][-/\w\s,:.]*"
+}
+
 validation_re = (
-                 "(?P<node>"
-                   "(?P<position>//?)(?P<tag>[\w\*]{1,6})" # //div
-                   "(\[("
-                     "(?P<matched>(?P<mattr>@?[a-zA-Z]{1,5}(\(\))?)=\"(?P<mvalue>[\w\s\-]*))\"" # [@id="bleh"] and [text()="meh"]
-                   "|"
-                     "(?P<contained>contains\((?P<cattr>text\(\)|@[a-zA-Z]{1,5}),\s*\"(?P<cvalue>[\w\s\-]*)\"\))" # [contains(text(), "bleh")] and [contains(@id, "bleh")]
-                   ")\])?"
-                   "(\[(?P<nth>\d)\])?"
-                 ")"
-                 )
+    "(?P<node>"
+      "(?P<position>//?)(?P<tag>%(tag)s)" # //div
+      "(\[("
+        "(?P<matched>(?P<mattr>@?%(attribute)s=\"(?P<mvalue>%(value)s))\"" # [@id="bleh"] and [text()="meh"]
+      "|"
+        "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*\"(?P<cvalue>%(value)s)\"\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
+      ")\])?"
+      "(\[(?P<nth>\d)\])?"
+    ")" % sub_regexes
+)
 
 prog = re.compile(validation_re)
 
