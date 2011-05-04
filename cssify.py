@@ -47,6 +47,8 @@ def cssify(xpath):
     'html > body > h1'
     >>> cssify('//a[@id="myId"]')
     'a#myId'
+    >>> cssify("//a[@id='myId']")
+    'a#myId'
     >>> cssify('//a[@id="myId"][4]')
     'a#myId:nth(4)'
     >>> cssify('//*[@id="myId"]')
