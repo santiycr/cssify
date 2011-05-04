@@ -13,13 +13,13 @@ sub_regexes = {
 validation_re = (
     "(?P<node>"
       "("
-        "^id\(\"?(?P<idvalue>%(value)s)\"?\)" # special case! id(idValue)
+        "^id\([\"\']?(?P<idvalue>%(value)s)[\"\']?\)" # special case! id(idValue)
       "|"
         "(?P<position>//?)(?P<tag>%(tag)s)" # //div
         "(\[("
-          "(?P<matched>(?P<mattr>@?%(attribute)s=\"(?P<mvalue>%(value)s))\"" # [@id="bleh"] and [text()="meh"]
+          "(?P<matched>(?P<mattr>@?%(attribute)s=[\"\'](?P<mvalue>%(value)s))[\"\']" # [@id="bleh"] and [text()="meh"]
         "|"
-          "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*\"(?P<cvalue>%(value)s)\"\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
+          "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*[\"\'](?P<cvalue>%(value)s)[\"\']\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
         ")\])?"
         "(\[(?P<nth>\d)\])?"
       ")"
