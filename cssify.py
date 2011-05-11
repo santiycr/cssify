@@ -70,7 +70,7 @@ def cssify(xpath):
     >>> cssify('//a[@class="class-bleh"]')
     'a.class-bleh'
     >>> cssify('//a[text()="my text"]')
-    'a:contains(my text)'
+    'a:contains(^my text$)'
     >>> cssify('//a[contains(@id, "bleh")]')
     'a[id*=bleh]'
     >>> cssify('//a[contains(text(), "bleh")]')
@@ -102,7 +102,7 @@ def cssify(xpath):
                 elif node_match['mattr'] == "@class":
                     attr = ".%s" % node_match['mvalue'].replace(" ", ".")
                 elif node_match['mattr'] == "text()":
-                    attr = ":contains(%s)" % node_match['mvalue']
+                    attr = ":contains(^%s$)" % node_match['mvalue']
                 elif node_match['mattr']:
                     attr = "[%s=%s]" % (node_match['mattr'].replace("@", ""),
                                         node_match['mvalue'])
