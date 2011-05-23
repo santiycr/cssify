@@ -7,7 +7,7 @@ from optparse import OptionParser
 sub_regexes = {
     "tag": "([a-zA-Z][a-zA-Z0-9]{0,10}|\*)",
     "attribute": "[a-zA-Z_:][-\w:.]*(\(\))?)",
-    "value": "\s*[\w/:][-/\w\s,:.]*"
+    "value": "\s*[\w/:][-/\w\s,:;.]*"
 }
 
 validation_re = (
