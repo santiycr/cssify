@@ -15,7 +15,7 @@ validation_re = (
       "("
         "^id\([\"\']?(?P<idvalue>%(value)s)[\"\']?\)" # special case! id(idValue)
       "|"
-        "(?P<position>//?)(?P<tag>%(tag)s)" # //div
+        "(?P<nav>//?)(?P<tag>%(tag)s)" # //div
         "(\[("
           "(?P<matched>(?P<mattr>@?%(attribute)s=[\"\'](?P<mvalue>%(value)s))[\"\']" # [@id="bleh"] and [text()="meh"]
         "|"
@@ -37,10 +37,12 @@ def cssify(xpath):
     Traceback (most recent call last):
         ...
     XpathException: Invalid or unsupported Xpath: fail
+    >>> cssify("a[[]]")
+    Traceback (most recent call last):
+        ...
+    XpathException: Invalid or unsupported Xpath: a[[]]
     >>> cssify('//a')
     'a'
-    >>> cssify('//a//a')
-    'a a'
     >>> cssify('//a[2]')
     'a:nth(2)'
     >>> cssify('/html/body/h1')
@@ -75,56 +77,61 @@ def cssify(xpath):
     'a[id*=bleh]'
     >>> cssify('//a[contains(text(), "bleh")]')
     'a:contains(bleh)'
+    >>> cssify('//div[@id="myId"]/span[@class="myClass"]//a[contains(text(), "bleh")]//img')
+    'div#myId > span.myClass a:contains(bleh) img'
     """
 
-    result = prog.match(xpath)
-    if not result:
-        raise XpathException("Invalid or unsupported Xpath: %s" % xpath)
+    css = ""
+    position = 0
+
+    while position < len(xpath):
+        node = prog.match(xpath[position:])
+        if node is None:
+            raise XpathException("Invalid or unsupported Xpath: %s" % xpath)
+        log("node found: %s" % node)
+        match = node.groupdict()
+        log("broke node down to: %s" % match)
+
+        if position != 0:
+            nav = " " if match['nav'] == "//" else " > "
+        else:
+            nav = ""
+
+        tag = "" if match['tag'] == "*" else match['tag'] or ""
+
+        if match['idvalue']:
+            attr = "#%s" % match['idvalue'].replace(" ", "#")
+        elif match['matched']:
+            if match['mattr'] == "@id":
+                attr = "#%s" % match['mvalue'].replace(" ", "#")
+            elif match['mattr'] == "@class":
+                attr = ".%s" % match['mvalue'].replace(" ", ".")
+            elif match['mattr'] == "text()":
+                attr = ":contains(^%s$)" % match['mvalue']
+            elif match['mattr']:
+                attr = "[%s=%s]" % (match['mattr'].replace("@", ""),
+                                    match['mvalue'])
+        elif match['contained']:
+            if match['cattr'].startswith("@"):
+                attr = "[%s*=%s]" % (match['cattr'].replace("@", ""),
+                                     match['cvalue'])
+            elif match['cattr'] == "text()":
+                attr = ":contains(%s)" % match['cvalue']
+        else:
+            attr = ""
+
+        if match['nth']:
+            nth = ":nth(%s)" % match['nth']
+        else:
+            nth = ""
+
+        node_css = nav + tag + attr + nth
+
+        log("final node css: %s" % node_css)
+
+        css += node_css
+        position += node.end()
     else:
-        css = ""
-        for index, node in enumerate([n[0] for n in prog.findall(xpath)]):
-            log("node found: %s" % node)
-            node_match = prog.match(node).groupdict()
-            log("broke node down to: %s" % node_match)
-
-            if index:
-                position = " " if node_match['position'] == "//" else " > "
-            else:
-                position = ""
-
-            tag = "" if node_match['tag'] == "*" else node_match['tag'] or ""
-
-            if node_match['idvalue']:
-                attr = "#%s" % node_match['idvalue'].replace(" ", "#")
-            elif node_match['matched']:
-                if node_match['mattr'] == "@id":
-                    attr = "#%s" % node_match['mvalue'].replace(" ", "#")
-                elif node_match['mattr'] == "@class":
-                    attr = ".%s" % node_match['mvalue'].replace(" ", ".")
-                elif node_match['mattr'] == "text()":
-                    attr = ":contains(^%s$)" % node_match['mvalue']
-                elif node_match['mattr']:
-                    attr = "[%s=%s]" % (node_match['mattr'].replace("@", ""),
-                                        node_match['mvalue'])
-            elif node_match['contained']:
-                if node_match['cattr'].startswith("@"):
-                    attr = "[%s*=%s]" % (node_match['cattr'].replace("@", ""),
-                                         node_match['cvalue'])
-                elif node_match['cattr'] == "text()":
-                    attr = ":contains(%s)" % node_match['cvalue']
-            else:
-                attr = ""
-
-            if node_match['nth']:
-                nth = ":nth(%s)" % node_match['nth']
-            else:
-                nth = ""
-
-            node_css = position + tag + attr + nth
-
-            log("final node css: %s" % node_css)
-
-            css += node_css
         css = css.strip()
         return css
 
