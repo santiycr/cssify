@@ -6,7 +6,7 @@ from optparse import OptionParser
 
 sub_regexes = {
     "tag": "([a-zA-Z][a-zA-Z0-9]{0,10}|\*)",
-    "attribute": "[a-zA-Z_:][-\w:.]*(\(\))?)",
+    "attribute": "[.a-zA-Z_:][-\w:.]*(\(\))?)",
     "value": "\s*[\w/:][-/\w\s,:;.]*"
 }
 
@@ -71,6 +71,8 @@ def cssify(xpath):
     'a[href=/bleh]'
     >>> cssify('//a[@class="class-bleh"]')
     'a.class-bleh'
+    >>> cssify('//a[.="my text"]')
+    'a:contains(^my text$)'
     >>> cssify('//a[text()="my text"]')
     'a:contains(^my text$)'
     >>> cssify('//a[contains(@id, "bleh")]')
@@ -106,7 +108,7 @@ def cssify(xpath):
                 attr = "#%s" % match['mvalue'].replace(" ", "#")
             elif match['mattr'] == "@class":
                 attr = ".%s" % match['mvalue'].replace(" ", ".")
-            elif match['mattr'] == "text()":
+            elif match['mattr'] in ["text()", "."]:
                 attr = ":contains(^%s$)" % match['mvalue']
             elif match['mattr']:
                 attr = "[%s=%s]" % (match['mattr'].replace("@", ""),
