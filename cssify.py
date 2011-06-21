@@ -44,6 +44,8 @@ def cssify(xpath):
     >>> cssify('//a')
     'a'
     >>> cssify('//a[2]')
+    'a:nth-of-type(2)'
+    >>> cssify('(//a)[2]') #jQuery trick, not valid css
     'a:nth(2)'
     >>> cssify('/html/body/h1')
     'html > body > h1'
@@ -52,7 +54,7 @@ def cssify(xpath):
     >>> cssify("//a[@id='myId']")
     'a#myId'
     >>> cssify('//a[@id="myId"][4]')
-    'a#myId:nth(4)'
+    'a#myId:nth-of-type(4)'
     >>> cssify('//*[@id="myId"]')
     '#myId'
     >>> cssify('id(myId)')
@@ -123,7 +125,7 @@ def cssify(xpath):
             attr = ""
 
         if match['nth']:
-            nth = ":nth(%s)" % match['nth']
+            nth = ":nth-of-type(%s)" % match['nth']
         else:
             nth = ""
 
