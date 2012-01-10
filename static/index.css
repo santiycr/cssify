@@ -72,12 +72,9 @@
   color: red;
 }
 a#repo-link {
-  margin-top: 30px;
-  font-size: .8em;
   float: right;
 }
-a#santi-link {
-  margin-top: 30px;
+p.footer {
   font-size: .8em;
-  float: left;
+  margin-top: 30px;
 }
