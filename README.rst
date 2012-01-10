@@ -21,6 +21,10 @@ From python::
   'a'
   >>> cssify('//a[@id="bleh"]')
   'a#bleh'
+
+From your browser::
+
+Just open http://cssify.appspot.com
   
 Known Issues and unsupported XPATHs
 -----------------------------------
