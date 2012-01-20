@@ -176,4 +176,3 @@ if __name__ == "__main__":
 else:
     def log(msg):
         pass
-
