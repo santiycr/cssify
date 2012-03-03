@@ -7,6 +7,10 @@ want to translate, this script is smart but won't do your breakfast).
 Usage
 -----
 
+**New!** From a browser::
+
+http://cssify.appspot.com
+
 From the console::
 
   $ ./cssify.py '//a'
@@ -22,9 +26,6 @@ From python::
   >>> cssify('//a[@id="bleh"]')
   'a#bleh'
 
-From your browser::
-
-Just open http://cssify.appspot.com
   
 Known Issues and unsupported XPATHs
 -----------------------------------
