@@ -41,12 +41,14 @@ def cssify(xpath):
     Traceback (most recent call last):
         ...
     XpathException: Invalid or unsupported Xpath: a[[]]
+    >>> cssify('(//a)[2]')
+    Traceback (most recent call last):
+        ...
+    XpathException: Invalid or unsupported Xpath: (//a)[2]
     >>> cssify('//a')
     'a'
     >>> cssify('//a[2]')
     'a:nth-of-type(2)'
-    >>> cssify('(//a)[2]') #jQuery trick, not valid css
-    'a:nth(2)'
     >>> cssify('/html/body/h1')
     'html > body > h1'
     >>> cssify('//a[@id="myId"]')
