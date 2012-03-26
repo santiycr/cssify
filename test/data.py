@@ -26,7 +26,7 @@ SUPPORTED = [
 ]
 
 UNSUPPORTED = [
-    "fail",
-    "a[[]]",
+    'fail',
+    'a[[]]',
     '(//a)[2]',
 ]
