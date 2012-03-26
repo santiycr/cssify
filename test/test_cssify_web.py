@@ -37,11 +37,10 @@ class CssifyTest(unittest.TestCase):
     def test_supported_cssify(self):
         for path, cssified in SUPPORTED:
             self.driver.get(self.url)
-            self.assertTrue("cssify" in self.driver.title)
             xpath = self.driver.find_element_by_id('xpath')
             xpath.send_keys(path)
             xpath.submit()
-            css = WebDriverWait(self.driver, 10).until(
+            css = WebDriverWait(self.driver, 30).until(
                 lambda driver: driver.find_element_by_id("css"))
             self.assertEqual(css.get_attribute("value"), cssified)
 
@@ -61,7 +60,6 @@ class CssifyTest(unittest.TestCase):
         self.driver.quit()
 
 
-base_caps = webdriver.DesiredCapabilities.FIREFOX
 if SAUCE:
     PLATFORMS = [
         {'browserName': 'firefox',
