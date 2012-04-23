@@ -20,7 +20,7 @@ class CssifyTest(unittest.TestCase):
     def setUp(self):
         if SAUCE:
             self.desired_capabilities['name'] = 'Testing cssify'
-            self.desired_capabilities['selenium-version'] = '2.20.0'
+            self.desired_capabilities['selenium-version'] = '2.21.0'
             username = os.environ['SAUCE_USER']
             key = os.environ['SAUCE_KEY']
             hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, key)
