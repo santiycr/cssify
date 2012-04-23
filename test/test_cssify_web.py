@@ -2,6 +2,7 @@
 
 import os
 import new
+from random import randint
 
 import unittest
 from selenium import webdriver
@@ -66,11 +67,35 @@ if SAUCE:
          'version': '10',
          'platform': 'LINUX',
         },
+        {'browserName': 'firefox',
+         'version': '7',
+         'platform': 'LINUX',
+        },
+        {'browserName': 'firefox',
+         'version': '4',
+         'platform': 'LINUX',
+        },
+        {'browserName': 'firefox',
+         'version': '3.6',
+         'platform': 'LINUX',
+        },
         {'browserName': 'chrome',
          'platform': 'LINUX',
         },
         {'browserName': 'firefox',
-         'version': '10',
+         'version': '11',
+         'platform': 'XP',
+        },
+        {'browserName': 'firefox',
+         'version': '7',
+         'platform': 'XP',
+        },
+        {'browserName': 'firefox',
+         'version': '4',
+         'platform': 'XP',
+        },
+        {'browserName': 'firefox',
+         'version': '3.6',
          'platform': 'XP',
         },
         {'browserName': 'chrome',
@@ -78,6 +103,10 @@ if SAUCE:
         },
         {'browserName': 'firefox',
          'version': '10',
+         'platform': 'VISTA',
+        },
+        {'browserName': 'firefox',
+         'version': '9',
          'platform': 'VISTA',
         },
         {'browserName': 'chrome',
@@ -110,9 +139,10 @@ else:
 classes = {}
 for platform in PLATFORMS:
     d = dict(CssifyTest.__dict__)
-    name = "%s_%s_%s" % (CssifyTest.__name__,
-                         platform['browserName'],
-                         platform.get('platform', 'ANY'))
+    name = "%s_%s_%s_%s" % (CssifyTest.__name__,
+                            platform['browserName'],
+                            platform.get('platform', 'ANY'),
+                            randint(0,999))
     d.update({'__test__': True,
               'desired_capabilities': platform,
              })
