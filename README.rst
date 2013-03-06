@@ -4,10 +4,14 @@ cssify
 Get your XPATHs translated to css automatically! (don't go to crazy on what you
 want to translate, this script is smart but won't do your breakfast).
 
+.. image:: https://travis-ci.org/santiycr/cssify.png?branch=master
+   :alt: [Build Status]
+   :target: https://travis-ci.org/santiycr/cssify
+
 Usage
 -----
 
-**New!** From a browser::
+**New!** Use cssify from a browser::
 
 http://cssify.appspot.com
 
