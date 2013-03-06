@@ -4,7 +4,6 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
-
 default_expiration: "30d"
 
 handlers:
@@ -162,7 +161,7 @@ handlers:
 # audio files
 - url: /(.*\.(mid|midi|mp3|wav))
   static_files: static/\1
-  upload: static/(.*\.(mid|midi|mp3|wav))  
+  upload: static/(.*\.(mid|midi|mp3|wav))
 
 # windows files
 - url: /(.*\.(doc|exe|ppt|rtf|xls))
@@ -180,6 +179,5 @@ handlers:
   upload: static/index.html
   expiration: "15m"
 
-- url: .*
-  script: main.py
-
+- url: /.*
+  script: main.app

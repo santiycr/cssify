@@ -14,12 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-from google.appengine.ext import webapp
-from google.appengine.ext.webapp import util
+import webapp2
 from cssify import cssify, XpathException
-import simplejson as json
+import json
 
-class MainHandler(webapp.RequestHandler):
+
+class MainHandler(webapp2.RequestHandler):
     def post(self):
         xpath = self.request.get('xpath')
         if xpath:
@@ -27,9 +27,11 @@ class MainHandler(webapp.RequestHandler):
             try:
                 css = cssify(xpath)
             except XpathException, e:
-                self.response.out.write(json.dumps({'status': 'fail', 'response': str(e)}))
+                self.response.out.write(json.dumps({'status': 'fail',
+                                                    'response': str(e)}))
             else:
-                self.response.out.write(json.dumps({'status': 'pass', 'response': css}))
+                self.response.out.write(json.dumps({'status': 'pass',
+                                                    'response': css}))
         else:
             self.response.out.write("Send your xpath via POST under the xpath param")
 
@@ -37,11 +39,4 @@ class MainHandler(webapp.RequestHandler):
         self.response.out.write("Send your xpath via POST under the xpath param")
 
 
-def main():
-    application = webapp.WSGIApplication([('/cssify', MainHandler)],
-                                         debug=True)
-    util.run_wsgi_app(application)
-
-
-if __name__ == '__main__':
-    main()
+app = webapp2.WSGIApplication([('/cssify', MainHandler)])
