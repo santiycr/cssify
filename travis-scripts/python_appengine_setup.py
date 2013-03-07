@@ -52,7 +52,8 @@ class AppEngineSetup(object):
                appengine_app_path] + extra_args
 
         logging.info("Running App Engine with cmd: %s", " ".join(cmd))
-        proc = subprocess.Popen(cmd)
+        proc = subprocess.Popen(cmd, env={"PYTHONPATH": os.path.join(appengine_location,
+                                                                     "google_appengine")})
         logging.info("App Engine is starting; PID is %d", proc.pid)
 
         poll_wait = 0.5
