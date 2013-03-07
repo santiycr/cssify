@@ -40,7 +40,12 @@ class AppEngineSetup(object):
 
     def run(self, appengine_location, appengine_app_path, extra_args=[]):
         cmd = ["python",
-               os.path.join(appengine_location, "dev_appserver.py"),
+               os.path.join(appengine_location,
+                            "google_appengine",
+                            "google",
+                            "appengine",
+                            "tools",
+                            "dev_appserver.py"),
                appengine_app_path] + extra_args
 
         logging.info("Running App Engine with cmd: %s", " ".join(cmd))
