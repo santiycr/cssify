@@ -27,7 +27,7 @@ class SauceConnectSetup(object):
                "--readyfile", readyfile
                ] + extra_args
         if os.environ['TRAVIS_BUILD_ID']:
-            cmd.append("--tunnel-id")
+            cmd.append("--tunnel-identifier")
             cmd.append(os.environ['TRAVIS_BUILD_ID'])
 
         print("Sauce Connect cmd: %s" % " ".join(cmd))
