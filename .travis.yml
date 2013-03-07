@@ -8,3 +8,5 @@ env:
   global:
     - secure: "jE3ykM4EcAs8U4SB+ziJkVBzAlJFKnYCWQOYRW7Xw6fdPoibpf62tPd32XNC\njoRLchSVhmU3bl0dpMcmpFg4M099+N5wnPcqow1TDABA2SiJKyn2TXaXBmJz\n9zvrwQtfzo9gjqOjoWnIPZh3Ai9vEmJ+9LbKkGgieihnUrQzyRY="
     - secure: "V0e7tHG3XZnApgMmW/WGFYcHYFHCA5aD3kQxY41oxvFixpCx3aN+/8Kyw1Wf\nclZ+C9Myxn1rkaTrI39ZJBPB+UFrANJI1tg5uhLNnykHpUWielwWkNoh1OQx\nAwCCjZdzYdueMf+GCPi/kh5dGHANCp+eLlgf33X0IQGdcNpj4BQ="
+
+before_script: python travis-scripts/sauce_setup.py
