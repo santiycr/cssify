@@ -26,7 +26,8 @@ class SauceConnectSetup(object):
         cmd = ["java", "-jar", "%s/Sauce-Connect.jar" % connect_location,
                "--readyfile", readyfile
                ] + extra_args
-        if os.environ['TRAVIS_BUILD_ID']:
+        if (os.environ['TRAVIS'] and
+            os.environ['HAS_JOSH_K_SEAL_OF_APPROVAL']):
             cmd.append("--tunnel-identifier")
             cmd.append(os.environ['TRAVIS_BUILD_ID'])
 
