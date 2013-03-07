@@ -24,7 +24,7 @@ class AppEngineSetup(object):
         appengine_zip = zipfile.ZipFile(filename)
         for zipped_filename in appengine_zip.namelist():
             if zipped_filename.endswith('/'):
-                os.makedirs(zipped_filename)
+                os.makedirs(os.path.join(tmpdir, zipped_filename))
                 continue
             destination = open(os.path.join(tmpdir, zipped_filename), 'wb')
             try:
