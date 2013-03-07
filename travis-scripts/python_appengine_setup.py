@@ -9,7 +9,7 @@ import urllib
 import logging
 
 
-class SauceConnectSetup(object):
+class AppEngineSetup(object):
     """ Download and run your app using Google App Engine """
 
     def __init__(self):
@@ -23,9 +23,16 @@ class SauceConnectSetup(object):
         logging.info("Extracting App Engine")
         appengine_zip = zipfile.ZipFile(filename)
         for zipped_filename in appengine_zip.namelist():
+            if zipped_filename.endswith('/'):
+                os.makedirs(zipped_filename)
+                continue
             destination = open(os.path.join(tmpdir, zipped_filename), 'wb')
             try:
-                destination.write(appengine_zip.read(zipped_filename))
+                while True:
+                    buff = appengine_zip.fp.read(1024 * 1024)
+                    if not buff:
+                        break
+                    destination.write(buff)
             finally:
                 destination.close()
         logging.info("App Engine is ready to use in path %s", tmpdir)
@@ -57,7 +64,7 @@ class SauceConnectSetup(object):
                         "waited ~%ds." % self.startup_timeout)
 
 if __name__ == "__main__":
-    admin = SauceConnectSetup()
+    admin = AppEngineSetup()
     downloaded = admin.download()
     path = os.path.abspath(__file__)
     dir_path = os.path.dirname(path)
