@@ -46,6 +46,7 @@ class AppEngineSetup(object):
                os.path.join(appengine_location,
                             "google_appengine",
                             "dev_appserver.py"),
+               "--skip_sdk_update_check",
                appengine_app_path] + extra_args
 
         logging.info("Running App Engine with cmd: %s", " ".join(cmd))
