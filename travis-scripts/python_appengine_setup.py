@@ -8,6 +8,8 @@ import zipfile
 import urllib
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 class AppEngineSetup(object):
     """ Download and run your app using Google App Engine """
@@ -28,8 +30,9 @@ class AppEngineSetup(object):
                 continue
             destination = open(os.path.join(tmpdir, zipped_filename), 'wb')
             try:
+                zipped_file = appengine_zip.open(zipped_filename)
                 while True:
-                    buff = appengine_zip.fp.read(1024 * 1024)
+                    buff = zipped_file.read(1024 * 1024)
                     if not buff:
                         break
                     destination.write(buff)
