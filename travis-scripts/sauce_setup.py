@@ -11,7 +11,8 @@ import logging
 
 
 class SauceConnectSetup(object):
-    """ Takes care of downloading and running Connect """
+    """ Download and run Sauce Connect """
+
     def __init__(self):
         self.connect_url = "http://saucelabs.com/downloads/Sauce-Connect-latest.zip"
         self.startup_timeout = 90

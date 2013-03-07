@@ -9,6 +9,7 @@ env:
     - secure: "V0e7tHG3XZnApgMmW/WGFYcHYFHCA5aD3kQxY41oxvFixpCx3aN+/8Kyw1Wf\nclZ+C9Myxn1rkaTrI39ZJBPB+UFrANJI1tg5uhLNnykHpUWielwWkNoh1OQx\nAwCCjZdzYdueMf+GCPi/kh5dGHANCp+eLlgf33X0IQGdcNpj4BQ="
 
 before_script:
+  - python travis-scripts/python_appengine_setup.py
   - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
   - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
   - sudo add-apt-repository -y ppa:webupd8team/java
