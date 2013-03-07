@@ -16,16 +16,11 @@ class CssifyTest(unittest.TestCase):
     __test__ = False
 
     def setUp(self):
-        if SAUCE:
-            self.desired_capabilities['name'] = 'Testing cssify'
-            self.desired_capabilities['selenium-version'] = '2.21.0'
-            username = os.environ['SAUCE_USER']
-            key = os.environ['SAUCE_KEY']
-            hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, key)
-            self.url = 'http://cssify.appspot.com/'
-        else:
-            hub_url = "localhost:4444"
-            self.url = 'http://localhost:8080/'
+        self.desired_capabilities['name'] = 'Testing cssify'
+        username = os.environ['SAUCE_USERNAME']
+        key = os.environ['SAUCE_ACCESS_KEY']
+        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, key)
+        self.url = 'http://localhost:8080/'
 
         self.driver = webdriver.Remote(
             desired_capabilities=self.desired_capabilities,
@@ -64,68 +59,72 @@ if SAUCE:
         {'browserName': 'firefox',
          'version': '10',
          'platform': 'LINUX',
-        },
+         },
         {'browserName': 'firefox',
          'version': '7',
          'platform': 'LINUX',
-        },
+         },
         {'browserName': 'firefox',
          'version': '4',
          'platform': 'LINUX',
-        },
+         },
         {'browserName': 'firefox',
          'version': '3.6',
          'platform': 'LINUX',
-        },
+         },
         {'browserName': 'chrome',
          'platform': 'LINUX',
-        },
+         },
         {'browserName': 'firefox',
          'version': '11',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'firefox',
          'version': '7',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'firefox',
          'version': '4',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'firefox',
          'version': '3.6',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'chrome',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'firefox',
          'version': '10',
          'platform': 'VISTA',
-        },
+         },
         {'browserName': 'firefox',
          'version': '9',
          'platform': 'VISTA',
-        },
+         },
         {'browserName': 'chrome',
          'platform': 'VISTA',
-        },
+         },
+        {'browserName': 'internet explorer',
+         'version': '10',
+         'platform': 'WIN8',
+         },
         {'browserName': 'internet explorer',
          'version': '9',
          'platform': 'VISTA',
-        },
+         },
         {'browserName': 'internet explorer',
          'version': '8',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'internet explorer',
          'version': '7',
          'platform': 'XP',
-        },
+         },
         {'browserName': 'internet explorer',
          'version': '6',
          'platform': 'XP',
-        },
+         },
     ]
 else:
     PLATFORMS = [
@@ -140,10 +139,10 @@ for platform in PLATFORMS:
     name = "%s_%s_%s_%s" % (CssifyTest.__name__,
                             platform['browserName'],
                             platform.get('platform', 'ANY'),
-                            randint(0,999))
+                            randint(0, 999))
     d.update({'__test__': True,
               'desired_capabilities': platform,
-             })
+              })
     classes[name] = new.classobj(name, (CssifyTest,), d)
 
 globals().update(classes)
