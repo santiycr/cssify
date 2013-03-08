@@ -9,6 +9,8 @@ import urllib
 from random import randint
 import logging
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 class SauceConnectSetup(object):
     """ Download and run Sauce Connect """
@@ -58,7 +60,8 @@ class SauceConnectSetup(object):
             if os.path.exists(readyfile):
                 logging.info("Sauce Connect is ready for testing!")
                 return proc
-            logging.info("Sauce Connect is not ready yet. Waiting...")
+            if x % 5:
+                logging.info("Sauce Connect is not ready yet. Waiting...")
             time.sleep(poll_wait)
         raise Exception("Done waiting for tunnel to become ready; "
                         "waited ~%ds." % self.startup_timeout)

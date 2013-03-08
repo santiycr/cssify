@@ -61,7 +61,8 @@ class AppEngineSetup(object):
             try:
                 urllib.urlopen("http://localhost:8080")
             except IOError:
-                logging.info("App Engine is not ready yet. Waiting...")
+                if not x % 5:
+                    logging.info("App Engine is not ready yet. Waiting...")
                 time.sleep(poll_wait)
                 continue
             logging.info("App Engine is ready for testing!")
