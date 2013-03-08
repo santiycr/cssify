@@ -9,7 +9,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
 from data import SUPPORTED, UNSUPPORTED
-SAUCE = True
 
 
 class CssifyTest(unittest.TestCase):
@@ -19,6 +18,10 @@ class CssifyTest(unittest.TestCase):
         self.desired_capabilities['name'] = 'Testing cssify'
         username = os.environ['SAUCE_USERNAME']
         key = os.environ['SAUCE_ACCESS_KEY']
+        if (os.environ.get('TRAVIS') and
+            os.environ.get('HAS_JOSH_K_SEAL_OF_APPROVAL')):
+            identifier = os.environ['TRAVIS_BUILD_ID']
+            self.desired_capabilities['tunnel-identifier'] = identifier
         hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, key)
         self.url = 'http://localhost:8080/'
 
@@ -54,84 +57,69 @@ class CssifyTest(unittest.TestCase):
         self.driver.quit()
 
 
-if SAUCE:
-    PLATFORMS = [
-        {'browserName': 'firefox',
-         'version': '10',
-         'platform': 'LINUX',
-         },
-        {'browserName': 'firefox',
-         'version': '7',
-         'platform': 'LINUX',
-         },
-        {'browserName': 'firefox',
-         'version': '4',
-         'platform': 'LINUX',
-         },
-        {'browserName': 'firefox',
-         'version': '3.6',
-         'platform': 'LINUX',
-         },
-        {'browserName': 'chrome',
-         'platform': 'LINUX',
-         },
-        {'browserName': 'firefox',
-         'version': '11',
-         'platform': 'XP',
-         },
-        {'browserName': 'firefox',
-         'version': '7',
-         'platform': 'XP',
-         },
-        {'browserName': 'firefox',
-         'version': '4',
-         'platform': 'XP',
-         },
-        {'browserName': 'firefox',
-         'version': '3.6',
-         'platform': 'XP',
-         },
-        {'browserName': 'chrome',
-         'platform': 'XP',
-         },
-        {'browserName': 'firefox',
-         'version': '10',
-         'platform': 'VISTA',
-         },
-        {'browserName': 'firefox',
-         'version': '9',
-         'platform': 'VISTA',
-         },
-        {'browserName': 'chrome',
-         'platform': 'VISTA',
-         },
-        {'browserName': 'internet explorer',
-         'version': '10',
-         'platform': 'WIN8',
-         },
-        {'browserName': 'internet explorer',
-         'version': '9',
-         'platform': 'VISTA',
-         },
-        {'browserName': 'internet explorer',
-         'version': '8',
-         'platform': 'XP',
-         },
-        {'browserName': 'internet explorer',
-         'version': '7',
-         'platform': 'XP',
-         },
-        {'browserName': 'internet explorer',
-         'version': '6',
-         'platform': 'XP',
-         },
-    ]
-else:
-    PLATFORMS = [
-        {'browserName': 'firefox',
-         'version': '11'},
-        {'browserName': 'chrome'},
-    ]
+PLATFORMS = [
+    {'browserName': 'firefox',
+     'version': '19',
+     'platform': 'LINUX',
+     },
+    {'browserName': 'firefox',
+     'version': '4',
+     'platform': 'LINUX',
+     },
+    {'browserName': 'firefox',
+     'version': '3.6',
+     'platform': 'LINUX',
+     },
+    {'browserName': 'chrome',
+     'platform': 'LINUX',
+     },
+    {'browserName': 'firefox',
+     'version': '19',
+     'platform': 'XP',
+     },
+    {'browserName': 'firefox',
+     'version': '4',
+     'platform': 'XP',
+     },
+    {'browserName': 'firefox',
+     'version': '3.6',
+     'platform': 'XP',
+     },
+    {'browserName': 'chrome',
+     'platform': 'XP',
+     },
+    {'browserName': 'firefox',
+     'version': '19',
+     'platform': 'VISTA',
+     },
+    {'browserName': 'firefox',
+     'version': '9',
+     'platform': 'VISTA',
+     },
+    {'browserName': 'chrome',
+     'platform': 'VISTA',
+     },
+    {'browserName': 'internet explorer',
+     'version': '10',
+     'platform': 'WIN8',
+     },
+    {'browserName': 'internet explorer',
+     'version': '9',
+     'platform': 'VISTA',
+     },
+    {'browserName': 'internet explorer',
+     'version': '8',
+     'platform': 'XP',
+     },
+    {'browserName': 'internet explorer',
+     'version': '7',
+     'platform': 'XP',
+     },
+    {'browserName': 'internet explorer',
+     'version': '6',
+     'platform': 'XP',
+     },
+]
 
 classes = {}
 for platform in PLATFORMS:
