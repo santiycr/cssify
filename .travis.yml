@@ -8,6 +8,9 @@ env:
     - secure: "jE3ykM4EcAs8U4SB+ziJkVBzAlJFKnYCWQOYRW7Xw6fdPoibpf62tPd32XNC\njoRLchSVhmU3bl0dpMcmpFg4M099+N5wnPcqow1TDABA2SiJKyn2TXaXBmJz\n9zvrwQtfzo9gjqOjoWnIPZh3Ai9vEmJ+9LbKkGgieihnUrQzyRY="
     - secure: "V0e7tHG3XZnApgMmW/WGFYcHYFHCA5aD3kQxY41oxvFixpCx3aN+/8Kyw1Wf\nclZ+C9Myxn1rkaTrI39ZJBPB+UFrANJI1tg5uhLNnykHpUWielwWkNoh1OQx\nAwCCjZdzYdueMf+GCPi/kh5dGHANCp+eLlgf33X0IQGdcNpj4BQ="
 
+install:
+  - pip install selenium nose --use-mirrors
+
 before_script:
   - python travis-scripts/python_appengine_setup.py
   - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
@@ -17,4 +20,6 @@ before_script:
   - sudo apt-get install -qq oracle-java7-installer
   - python travis-scripts/sauce_setup.py
 
-script: python cssify.py -t
+script:
+  - python cssify.py -t
+  - nosetests --processes=5 --process-timeout=300 test
