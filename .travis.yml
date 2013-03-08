@@ -22,4 +22,4 @@ before_script:
 
 script:
   - python cssify.py -t
-  - nosetests --processes=5 --process-timeout=300 -v test
+  - nosetests --processes=5 --process-timeout=600 -v test
