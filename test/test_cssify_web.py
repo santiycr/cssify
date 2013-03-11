@@ -28,8 +28,9 @@ class CssifyTest(unittest.TestCase):
             os.environ.get('HAS_JOSH_K_SEAL_OF_APPROVAL')):
             identifier = os.environ['TRAVIS_BUILD_ID']
             self.desired_capabilities['tunnel-identifier'] = identifier
-            self.desired_capabilities['build'] = identifier
-            self.desired_capabilities['tags'] = ['CI']
+            self.desired_capabilities['build'] = os.environ['TRAVIS_BUILD_NUMBER']
+            self.desired_capabilities['tags'] = [os.environ['TRAVIS_PYTHON_VERSION'],
+                                                 'CI']
         hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
         self.url = 'http://localhost:8080/'
 
