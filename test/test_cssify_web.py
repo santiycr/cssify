@@ -29,7 +29,7 @@ class CssifyTest(unittest.TestCase):
         hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
         self.url = 'http://localhost:8080/'
 
-        self.driver = webdriver.Remote(caps=self.caps,
+        self.driver = webdriver.Remote(desired_capabilities=self.caps,
                                        command_executor="http://%s/wd/hub" % hub_url)
         self.jobid = self.driver.session_id
         print "Sauce Labs job: https://saucelabs.com/jobs/%s" % self.jobid
