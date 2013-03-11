@@ -8,6 +8,10 @@ want to translate, this script is smart but won't do your breakfast).
    :alt: [Build Status]
    :target: https://travis-ci.org/santiycr/cssify
 
+.. image:: https://saucelabs.com/buildstatus/cssify
+   :alt: [Sauce Status]
+   :target: https://saucelabs.com/u/cssify
+
 Usage
 -----
 
