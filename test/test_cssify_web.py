@@ -1,9 +1,15 @@
 #!/usr/bin/python
 
 import os
+import sys
 import new
 from random import randint
-
+import base64
+try:
+    import json
+except ImportError:
+    import simplejson as json
+import httplib
 import unittest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
@@ -16,20 +22,36 @@ class CssifyTest(unittest.TestCase):
 
     def setUp(self):
         self.desired_capabilities['name'] = 'Testing cssify'
-        username = os.environ['SAUCE_USERNAME']
-        key = os.environ['SAUCE_ACCESS_KEY']
+        self.username = os.environ['SAUCE_USERNAME']
+        self.key = os.environ['SAUCE_ACCESS_KEY']
         if (os.environ.get('TRAVIS') and
             os.environ.get('HAS_JOSH_K_SEAL_OF_APPROVAL')):
             identifier = os.environ['TRAVIS_BUILD_ID']
             self.desired_capabilities['tunnel-identifier'] = identifier
-        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (username, key)
+            self.desired_capabilities['build'] = identifier
+            self.desired_capabilities['tags'] = ['CI']
+        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
         self.url = 'http://localhost:8080/'
 
         self.driver = webdriver.Remote(
             desired_capabilities=self.desired_capabilities,
             command_executor="http://%s/wd/hub" % hub_url
         )
+        self.jobid = self.driver.sessionId
+        print "Sauce Labs job: https://saucelabs.com/jobs/%s" % self.jobid
         self.driver.implicitly_wait(30)
+
+    def report_test_result(self):
+        base64string = base64.encodestring('%s:%s'
+                                           % (self.username, self.key))[:-1]
+        result = json.dumps({'passed': sys.exc_info() == (None, None, None)})
+        connection = httplib.HTTPConnection("saucelabs.com")
+        connection.request('PUT',
+                           '/rest/v1/%s/jobs/%s' % (self.username, self.jobid),
+                           result,
+                           headers={"Authorization": "Basic %s" % base64string})
+        result = connection.getresponse()
+        return result.status == 200
 
     def test_supported_cssify(self):
         for path, cssified in SUPPORTED:
@@ -55,6 +77,7 @@ class CssifyTest(unittest.TestCase):
 
     def tearDown(self):
         self.driver.quit()
+        self.report_test_result()
 
 
 PLATFORMS = [
