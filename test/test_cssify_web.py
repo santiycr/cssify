@@ -118,7 +118,7 @@ for platform in PLATFORMS:
                             platform.get('platform', 'ANY'),
                             randint(0, 999))
     d.update({'__test__': True,
-              'desired_capabilities': platform,
+              'caps': platform,
               })
     classes[name] = new.classobj(name, (CssifyTest,), d)
 
