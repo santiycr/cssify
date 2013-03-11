@@ -37,7 +37,7 @@ class CssifyTest(unittest.TestCase):
             desired_capabilities=self.desired_capabilities,
             command_executor="http://%s/wd/hub" % hub_url
         )
-        self.jobid = self.driver.sessionId
+        self.jobid = self.driver.session_id
         print "Sauce Labs job: https://saucelabs.com/jobs/%s" % self.jobid
         self.driver.implicitly_wait(30)
 
