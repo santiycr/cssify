@@ -108,6 +108,10 @@ PLATFORMS = [
      'version': '8',
      'platform': 'XP',
      },
+    {'browserName': 'safari',
+     'version': '6',
+     'platform': 'Mac 10.8',
+     },
 ]
 
 classes = {}
