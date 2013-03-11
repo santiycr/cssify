@@ -44,8 +44,7 @@ class SauceConnectSetup(object):
         if (os.environ.get('TRAVIS') and
             os.environ.get('HAS_JOSH_K_SEAL_OF_APPROVAL')):
             cmd.append("--tunnel-identifier")
-            cmd.append(os.environ['TRAVIS_BUILD_ID'])
-
+            cmd.append(os.environ['TRAVIS_JOB_NUMBER'])
         logging.info("Running Sauce Connect with cmd: %s", " ".join(cmd))
         cmd.append(os.environ['SAUCE_USERNAME'])
         cmd.append(os.environ['SAUCE_ACCESS_KEY'])
