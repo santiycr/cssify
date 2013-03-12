@@ -121,6 +121,7 @@ for platform in PLATFORMS:
                             platform['browserName'],
                             platform.get('platform', 'ANY'),
                             randint(0, 999))
+    name = name.replace(" ", "").replace(".", "")
     d.update({'__test__': True,
               'caps': platform,
               })
