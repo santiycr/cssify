@@ -12,12 +12,7 @@ install:
 
 before_script:
   - python travis-scripts/python_appengine_setup.py
-  - echo debconf shared/accepted-oracle-license-v1-1 select true | sudo debconf-set-selections
-  - echo debconf shared/accepted-oracle-license-v1-1 seen true | sudo debconf-set-selections
-  - sudo add-apt-repository -y ppa:webupd8team/java
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq oracle-java7-installer
-  - python travis-scripts/sauce_setup.py
+  - bash travis-scripts/sauce_connect_setup.sh
 
 script:
   - python cssify.py -t
