@@ -19,16 +19,16 @@ class CssifyTest(unittest.TestCase):
 
     def setUp(self):
         self.caps['name'] = 'Testing cssify'
-        self.username = os.environ['SAUCE_USERNAME']
-        self.key = os.environ['SAUCE_ACCESS_KEY']
         if (os.environ.get('TRAVIS') and
             os.environ.get('HAS_JOSH_K_SEAL_OF_APPROVAL')):
             self.caps['tunnel-identifier'] = os.environ['TRAVIS_JOB_NUMBER']
             self.caps['build'] = os.environ['TRAVIS_BUILD_NUMBER']
             self.caps['tags'] = [os.environ['TRAVIS_PYTHON_VERSION'], 'CI']
-        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
         self.url = 'http://localhost:8080/'
 
+        self.username = os.environ['SAUCE_USERNAME']
+        self.key = os.environ['SAUCE_ACCESS_KEY']
+        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
         self.driver = webdriver.Remote(desired_capabilities=self.caps,
                                        command_executor="http://%s/wd/hub" % hub_url)
         self.jobid = self.driver.session_id
