@@ -11,8 +11,8 @@ install:
   - pip install selenium nose --use-mirrors
 
 before_script:
-  - python travis-scripts/python_appengine_setup.py
-  - bash travis-scripts/sauce_connect_setup.sh
+  - curl https://gist.github.com/santiycr/5139581/raw/python_appengine_setup.py | python
+  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 
 script:
   - python cssify.py -t
