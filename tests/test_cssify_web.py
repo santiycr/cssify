@@ -28,7 +28,7 @@ class CssifyTest(unittest.TestCase):
 
         self.username = os.environ['SAUCE_USERNAME']
         self.key = os.environ['SAUCE_ACCESS_KEY']
-        hub_url = "%s:%s@ondemand.saucelabs.com:80" % (self.username, self.key)
+        hub_url = "%s:%s@localhost:4445" % (self.username, self.key)
         self.driver = webdriver.Remote(desired_capabilities=self.caps,
                                        command_executor="http://%s/wd/hub" % hub_url)
         self.jobid = self.driver.session_id
