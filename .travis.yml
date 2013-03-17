@@ -15,5 +15,4 @@ before_script:
   - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
 
 script:
-  - python cssify.py -t
   - nosetests --processes=5 --process-timeout=600 -v tests
