@@ -35,12 +35,17 @@ From python::
   'a#bleh'
 
   
-Known Issues and unsupported XPATHs
------------------------------------
+Testing and contributing
+------------------------
 
-Known issues should have failing tests. Tests are part of the script itself.
-They use the `doctest <http://docs.python.org/library/doctest.html>`_ format.
-To run tests and see any known issue (failing test), just run cssify with the
--t flag::
+Supported and unsupported cases are documented by tests. If you have a request
+or a contribution for new conversions, include a test that proves the issue and
+solution and send a pull request.
 
-  $ ./cssify.py -t
+To run all unit tests locally::
+
+  $ nosetests tests/test_cssify.py
+
+To run all Selenium tests locally (some env variables are necessary)::
+
+  $ nosetests tests/test_cssify_web.py

@@ -11,10 +11,10 @@ import unittest
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 
-from data import SUPPORTED, UNSUPPORTED
+from test_data import SUPPORTED, UNSUPPORTED
 
 
-class CssifyTest(unittest.TestCase):
+class CssifyWebTest(unittest.TestCase):
     __test__ = False
 
     def setUp(self):
@@ -83,18 +83,11 @@ PLATFORMS = [
      'version': '19',
      'platform': 'XP',
      },
-    {'browserName': 'firefox',
-     'version': '19',
-     'platform': 'VISTA',
-     },
     {'browserName': 'chrome',
      'platform': 'LINUX',
      },
     {'browserName': 'chrome',
      'platform': 'XP',
-     },
-    {'browserName': 'chrome',
-     'platform': 'VISTA',
      },
     {'browserName': 'internet explorer',
      'version': '10',
@@ -112,8 +105,8 @@ PLATFORMS = [
 
 classes = {}
 for platform in PLATFORMS:
-    d = dict(CssifyTest.__dict__)
-    name = "%s_%s_%s_%s" % (CssifyTest.__name__,
+    d = dict(CssifyWebTest.__dict__)
+    name = "%s_%s_%s_%s" % (CssifyWebTest.__name__,
                             platform['browserName'],
                             platform.get('platform', 'ANY'),
                             randint(0, 999))
@@ -121,6 +114,6 @@ for platform in PLATFORMS:
     d.update({'__test__': True,
               'caps': platform,
               })
-    classes[name] = new.classobj(name, (CssifyTest,), d)
+    classes[name] = new.classobj(name, (CssifyWebTest,), d)
 
 globals().update(classes)

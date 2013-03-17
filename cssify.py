@@ -28,65 +28,15 @@ validation_re = (
 
 prog = re.compile(validation_re)
 
+
 class XpathException(Exception):
     pass
 
+
 def cssify(xpath):
     """
-    >>> cssify("fail")
-    Traceback (most recent call last):
-        ...
-    XpathException: Invalid or unsupported Xpath: fail
-    >>> cssify("a[[]]")
-    Traceback (most recent call last):
-        ...
-    XpathException: Invalid or unsupported Xpath: a[[]]
-    >>> cssify('(//a)[2]')
-    Traceback (most recent call last):
-        ...
-    XpathException: Invalid or unsupported Xpath: (//a)[2]
-    >>> cssify('//a')
-    'a'
-    >>> cssify('//a[2]')
-    'a:nth-of-type(2)'
-    >>> cssify('/html/body/h1')
-    'html > body > h1'
-    >>> cssify('//a[@id="myId"]')
-    'a#myId'
-    >>> cssify("//a[@id='myId']")
-    'a#myId'
-    >>> cssify('//a[@id="myId"][4]')
-    'a#myId:nth-of-type(4)'
-    >>> cssify('//*[@id="myId"]')
-    '#myId'
-    >>> cssify('id(myId)')
-    '#myId'
-    >>> cssify('id("myId")/a')
-    '#myId > a'
-    >>> cssify('//a[@class="myClass"]')
-    'a.myClass'
-    >>> cssify('//*[@class="myClass"]')
-    '.myClass'
-    >>> cssify('//a[@class="multiple classes"]')
-    'a.multiple.classes'
-    >>> cssify('//a[@href="bleh"]')
-    'a[href=bleh]'
-    >>> cssify('//a[@href="bleh bar"]')
-    'a[href="bleh bar"]'
-    >>> cssify('//a[@href="/bleh"]')
-    'a[href=/bleh]'
-    >>> cssify('//a[@class="class-bleh"]')
-    'a.class-bleh'
-    >>> cssify('//a[.="my text"]')
-    'a:contains(^my text$)'
-    >>> cssify('//a[text()="my text"]')
-    'a:contains(^my text$)'
-    >>> cssify('//a[contains(@id, "bleh")]')
-    'a[id*=bleh]'
-    >>> cssify('//a[contains(text(), "bleh")]')
-    'a:contains(bleh)'
-    >>> cssify('//div[@id="myId"]/span[@class="myClass"]//a[contains(text(), "bleh")]//img')
-    'div#myId > span.myClass a:contains(bleh) img'
+    Get your XPATHs translated to css automatically! (don't go to crazy on what
+    you want to translate, this script is smart but won't do your breakfast).
     """
 
     css = ""
@@ -117,8 +67,8 @@ def cssify(xpath):
             elif match['mattr'] in ["text()", "."]:
                 attr = ":contains(^%s$)" % match['mvalue']
             elif match['mattr']:
-                if match["mvalue"].find(" ")!=-1:
-                    match["mvalue"] = "\"%s\""%match["mvalue"]
+                if match["mvalue"].find(" ") != -1:
+                    match["mvalue"] = "\"%s\"" % match["mvalue"]
                 attr = "[%s=%s]" % (match['mattr'].replace("@", ""),
                                     match['mvalue'])
         elif match['contained']:
@@ -148,9 +98,6 @@ def cssify(xpath):
 if __name__ == "__main__":
     usage = "usage: %prog [options] XPATH"
     parser = OptionParser(usage)
-    parser.add_option("-t", "--test",
-                      action="store_true", dest="test", default=False,
-                      help="run tests")
     parser.add_option("-v", "--verbose",
                       action="store_true", dest="verbose", default=False,
                       help="print status messages to stdout")
@@ -164,17 +111,13 @@ if __name__ == "__main__":
         def log(msg):
             pass
 
-    if options.test:
-        import doctest
-        doctest.testmod()
-    else:
-        if len(args) != 1:
-            parser.error("incorrect number of arguments")
-        try:
-            print cssify(args[0])
-        except XpathException, e:
-            print e
-            sys.exit(1)
+    if len(args) != 1:
+        parser.error("incorrect number of arguments")
+    try:
+        print cssify(args[0])
+    except XpathException, e:
+        print e
+        sys.exit(1)
 else:
     def log(msg):
         pass
