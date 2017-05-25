@@ -9,5 +9,4 @@ setup(name='cssify',
       author_email='santiycr@gmail.com',
       url='http://cssify.appspot.com/',
       packages=['cssify'],
-      install_requires=['flask'],
       )

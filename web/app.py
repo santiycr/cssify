@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
+import sys
 from flask import Flask, request, jsonify
+
+sys.path.append('../')
 from cssify.cssify import cssify, XpathException
 
 
