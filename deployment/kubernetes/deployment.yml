@@ -14,3 +14,8 @@ spec:
         image: santiycr/cssify:latest
         ports:
         - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /cssify
+            port: 5000
+          timeoutSeconds: 1
