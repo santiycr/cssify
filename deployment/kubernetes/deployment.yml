@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: cssify
-        image: santiycr/cssify:latest
+        image: santiycr/cssify:1.0.0
         ports:
         - containerPort: 5000
         livenessProbe:
@@ -19,3 +19,9 @@ spec:
             path: /cssify
             port: 5000
           timeoutSeconds: 1
+        readinessProbe:
+          httpGet:
+            path: /cssify
+            port: 5000
+          timeoutSeconds: 1
+          periodSeconds: 5
