@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cssify-service
+spec:
+  selector:
+    app: cssify
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000

@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cssify-deployment
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: cssify
+    spec:
+      containers:
+      - name: cssify
+        image: santiycr/cssify:latest
+        ports:
+        - containerPort: 5000
