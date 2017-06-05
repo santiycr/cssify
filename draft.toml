@@ -1,0 +1,6 @@
+[environments]
+  [environments.development]
+    name = "glass-head"
+    namespace = "default"
+    watch = true
+    watch_delay = 2
