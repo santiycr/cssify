@@ -8,7 +8,7 @@ env:
     - secure: "V0e7tHG3XZnApgMmW/WGFYcHYFHCA5aD3kQxY41oxvFixpCx3aN+/8Kyw1Wf\nclZ+C9Myxn1rkaTrI39ZJBPB+UFrANJI1tg5uhLNnykHpUWielwWkNoh1OQx\nAwCCjZdzYdueMf+GCPi/kh5dGHANCp+eLlgf33X0IQGdcNpj4BQ="
 
 install:
-  - pip install selenium nose --use-mirrors
+  - pip install selenium nose
 
 before_script:
   - curl https://gist.github.com/santiycr/5139581/raw/python_appengine_setup.py | python
