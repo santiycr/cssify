@@ -76,11 +76,9 @@ class CssifyWebTest(unittest.TestCase):
 
 PLATFORMS = [
     {'browserName': 'firefox',
-     'version': '19',
      'platform': 'LINUX',
      },
     {'browserName': 'firefox',
-     'version': '19',
      'platform': 'XP',
      },
     {'browserName': 'chrome',
@@ -90,15 +88,12 @@ PLATFORMS = [
      'platform': 'XP',
      },
     {'browserName': 'internet explorer',
-     'version': '10',
      'platform': 'WIN8',
      },
     {'browserName': 'internet explorer',
-     'version': '9',
      'platform': 'VISTA',
      },
     {'browserName': 'internet explorer',
-     'version': '8',
      'platform': 'XP',
      },
 ]
