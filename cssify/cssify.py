@@ -106,7 +106,7 @@ if __name__ == "__main__":
 
     if options.verbose:
         def log(msg):
-            print "> %s" % msg
+            print("> %s" % msg)
     else:
         def log(msg):
             pass
@@ -114,9 +114,9 @@ if __name__ == "__main__":
     if len(args) != 1:
         parser.error("incorrect number of arguments")
     try:
-        print cssify(args[0])
-    except XpathException, e:
-        print e
+        print(cssify(args[0]))
+    except XpathException as e:
+        print(e)
         sys.exit(1)
 else:
     def log(msg):

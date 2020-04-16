@@ -19,6 +19,19 @@ Usage
 
 http://cssify.appspot.com
 
+Install::
+
+  $ pip install cssify
+
+From python::
+
+  $ pip install cssify
+  >>> from cssify import cssify
+  >>> cssify('//a')
+  'a'
+  >>> cssify('//a[@id="bleh"]')
+  'a#bleh'
+
 From the console::
 
   $ ./cssify.py '//a'
@@ -26,15 +39,6 @@ From the console::
   $ ./cssify.py '//a[@id="bleh"]'
   a#bleh
 
-From python::
-
-  >>> from cssify import cssify
-  >>> cssify('//a')
-  'a'
-  >>> cssify('//a[@id="bleh"]')
-  'a#bleh'
-
-  
 Testing and contributing
 ------------------------
 
