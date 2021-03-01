@@ -21,7 +21,7 @@ validation_re = (
         "|"
           "(?P<contained>contains\((?P<cattr>@?%(attribute)s,\s*[\"\'](?P<cvalue>%(value)s)[\"\']\))" # [contains(text(), "bleh")] or [contains(@id, "bleh")]
         ")\])?"
-        "(\[(?P<nth>\d)\])?"
+        "(\[(?P<nth>\d+)\])?"
       ")"
     ")" % sub_regexes
 )
